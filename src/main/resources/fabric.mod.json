@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "racecs",
+  "version": "${version}",
+  "name": "racecs",
+  "description": "Complementary mod for AirCS races",
+  "authors": [
+    "Martysh12"
+  ],
+  "contact": {
+    "repo": "https://github.com/Martysh12/racecs-mod"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/racecs/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.martysh12.racecs.RaceCS"
+    ]
+  },
+  "mixins": [
+    "racecs.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
