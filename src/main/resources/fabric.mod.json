@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "racecs",
   "version": "${version}",
-  "name": "racecs",
+  "name": "RaceCS",
   "description": "Complementary mod for AirCS races",
   "authors": [
     "Martysh12"

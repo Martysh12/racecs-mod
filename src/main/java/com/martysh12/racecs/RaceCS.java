@@ -1,7 +1,11 @@
 package com.martysh12.racecs;
 
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
+import com.martysh12.racecs.net.StationManager;
+import com.martysh12.racecs.net.APIUtils;
+import com.martysh12.racecs.toast.ToastLauncher;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,20 +15,69 @@ import java.net.URISyntaxException;
 public class RaceCS implements ClientModInitializer {
     public static final String MOD_ID = "racecs";
     public static final Logger logger = LoggerFactory.getLogger(MOD_ID);
+    private static final Reconnector reconnector = new Reconnector();
+    private static final RaceCSWebsocketClient.EventListener eventListener = new RaceCSWebsocketClient.EventListener() {
+        @Override
+        public void onDisconnect(int code, String reason, boolean remote) {
+            hasDisconnected = true;
+        }
 
-    public static RaceCSWebsocketClient websocketClient;
+        @Override
+        public void onStationChange() {
+            RaceCS.logger.info("Stations have been changed");
+            StationManager.downloadStations();
+        }
+    };
+
+    private static boolean hasDisconnected = true;
+
+    public static MinecraftClient mc;
+    private static ToastLauncher toastLauncher;
+    private static RaceCSWebsocketClient websocketClient;
 
     @Override
     public void onInitializeClient() {
-        createWebsocketClient();
+        RaceCS.logger.info("Initialising {}", MOD_ID);
+
+        // Get the Minecraft client, so we don't get it manually each time
+        mc = MinecraftClient.getInstance();
+        toastLauncher = new ToastLauncher(); // ToastLauncher depends on RaceCS.mc
+
+        // Download stations
+        StationManager.downloadStations();
+
+        // Set up the websocket stuff
+        new Thread(reconnector, "Reconnector Thread").start();
     }
 
-    private void createWebsocketClient() {
+    private static void createWebsocketClient() {
         try {
-            websocketClient = new RaceCSWebsocketClient(new URI("wss://aircs.racing/ws"));
+            websocketClient = new RaceCSWebsocketClient(new URI(APIUtils.URL_WEBSOCKET));
         } catch (URISyntaxException e) {
             throw new RuntimeException(e); // This shouldn't happen to any wallaby
         }
         websocketClient.connect();
+
+        websocketClient.addEventListener(toastLauncher.getEventListener());
+        websocketClient.addEventListener(eventListener);
+    }
+
+    private static class Reconnector implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                // Re-create the websocket client if it disconnects
+                if (hasDisconnected) {
+                    hasDisconnected = false;
+                    createWebsocketClient();
+                }
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        }
     }
 }
