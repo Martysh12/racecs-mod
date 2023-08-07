@@ -44,11 +44,6 @@ public class RaceCSWebsocketClient extends WebSocketClient {
         // Do stuff
         String type = json.get("type").getAsString();
 
-        // Send a message to the chat
-        ClientPlayerEntity player = RaceCS.mc.player;
-        if (player != null && !Objects.equals(type, "ping"))
-            player.sendMessage(new LiteralText(message), false);
-
         switch (type) {
             case "ping" -> {
                 for (EventListener eventListener : eventListeners)
