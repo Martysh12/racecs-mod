@@ -61,17 +61,23 @@ public class ToastLauncher {
 
         @Override
         public void onCompletion(String username, int place) {
-            RaceCS.logger.info("Player {} has completed the race with place {}", username, place);
+            RaceCS.logger.info("Player {} has completed the race in #{}", username, place);
 
+            Text toastTitle;
             Text toastDescription;
-            if (isPlayerName(username))
-                toastDescription = new LiteralText("Congratulations on completing the race! You've reached the terminal station with " + ordinal(place) + " place.");
-            else
-                toastDescription = new LiteralText(username + " has completed the race with " + ordinal(place) + " place!");
+            if (isPlayerName(username)) {
+                toastTitle = new LiteralText("Congratulations!");
+                toastDescription = new LiteralText(
+                        "You've reached the terminal station in " + ordinal(place) + " place."
+                );
+            } else {
+                toastTitle = new LiteralText("Completion");
+                toastDescription = new LiteralText(username + " has completed the race in " + ordinal(place) + " place!");
+            }
 
             toastManager.add(new SystemToast(
                     SystemToast.Type.PERIODIC_NOTIFICATION,
-                    new LiteralText("Completion"),
+                    toastTitle,
                     toastDescription
             ));
         }
