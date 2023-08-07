@@ -48,13 +48,13 @@ public class ToastLauncher {
 
             Text toastDescription;
             if (isPlayerName(user))
-                toastDescription = new LiteralText("You've reached " + StationManager.getStationFullName(station) + ".");
+                toastDescription = new LiteralText("You've arrived at " + StationManager.getStationFullName(station) + ".");
             else
-                toastDescription = new LiteralText(user + " has reached " + StationManager.getStationFullName(station) + ".");
+                toastDescription = new LiteralText(user + " has arrived at " + StationManager.getStationFullName(station) + ".");
 
             toastManager.add(new SystemToast(
                     SystemToast.Type.PERIODIC_NOTIFICATION,
-                    new LiteralText("Visit"),
+                    new LiteralText("Arrival"),
                     toastDescription
             ));
         }
