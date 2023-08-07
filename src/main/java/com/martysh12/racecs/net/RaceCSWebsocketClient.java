@@ -90,10 +90,6 @@ public class RaceCSWebsocketClient extends WebSocketClient {
         eventListeners.add(listener);
     }
 
-    public void removeEventListener(EventListener eventListener) {
-        eventListeners.remove(eventListener);
-    }
-
     public interface EventListener {
         default void onDisconnect(int code, String reason, boolean remote) {}
 
