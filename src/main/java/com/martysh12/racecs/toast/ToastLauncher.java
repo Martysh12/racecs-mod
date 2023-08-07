@@ -23,6 +23,16 @@ public class ToastLauncher {
         }
 
         @Override
+        public void onCollision(String player1, String player2) {
+            RaceCS.logger.info("Player {} has collided with {}", player1, player2);
+            toastManager.add(new SystemToast(
+                    SystemToast.Type.PERIODIC_NOTIFICATION,
+                    new LiteralText("Collision"),
+                    new LiteralText(player1 + " has collided with " + player2 + "!")
+            ));
+        }
+
+        @Override
         public void onVisitation(String user, UUID uuid, String station) {
             RaceCS.logger.info("Player {} visited station {}", user, station);
             toastManager.add(new SystemToast(
