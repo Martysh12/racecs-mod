@@ -6,7 +6,9 @@ import com.martysh12.racecs.net.StationManager;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ToastLauncher {
@@ -18,47 +20,59 @@ public class ToastLauncher {
             toastManager.add(new SystemToast(
                     SystemToast.Type.PERIODIC_NOTIFICATION,
                     new LiteralText("Websocket Disconnected"),
-                    new LiteralText("Please restart Minecraft")
+                    new LiteralText("Please restart Minecraft!")
             ));
         }
 
         @Override
         public void onCollision(String player1, String player2) {
             RaceCS.logger.info("Player {} has collided with {}", player1, player2);
+
+            Text toastDescription;
+            boolean player1IsPlayerName = isPlayerName(player1);
+            if (player1IsPlayerName || isPlayerName(player2))
+                toastDescription = new LiteralText("You've collided with " + (player1IsPlayerName ? player2 : player1) + "!");
+            else
+                toastDescription = new LiteralText(player1 + " has collided with " + player2 + "!");
+
             toastManager.add(new SystemToast(
                     SystemToast.Type.PERIODIC_NOTIFICATION,
                     new LiteralText("Collision"),
-                    new LiteralText(player1 + " has collided with " + player2 + "!")
+                    toastDescription
             ));
         }
 
         @Override
         public void onVisitation(String user, UUID uuid, String station) {
             RaceCS.logger.info("Player {} visited station {}", user, station);
+
+            Text toastDescription;
+            if (isPlayerName(user))
+                toastDescription = new LiteralText("You've reached " + StationManager.getStationFullName(station) + ".");
+            else
+                toastDescription = new LiteralText(user + " has reached " + StationManager.getStationFullName(station) + ".");
+
             toastManager.add(new SystemToast(
                     SystemToast.Type.PERIODIC_NOTIFICATION,
                     new LiteralText("Visit"),
-                    new LiteralText(user + " has reached " + StationManager.getStationFullName(station) + ".")
+                    toastDescription
             ));
-        }
-
-        @Override
-        public void onNewPlayer(String user, UUID uuid) {
-            RaceCS.logger.info("Player {} has been added to the race", user);
-        }
-
-        @Override
-        public void onRemovePlayer(String user) {
-            RaceCS.logger.info("Player {} has been removed from the race", user);
         }
 
         @Override
         public void onCompletion(String username, int place) {
             RaceCS.logger.info("Player {} has completed the race with place {}", username, place);
+
+            Text toastDescription;
+            if (isPlayerName(username))
+                toastDescription = new LiteralText("Congratulations on completing the race! You've reached the terminal station with " + ordinal(place) + " place.");
+            else
+                toastDescription = new LiteralText(username + " has completed the race with " + ordinal(place) + " place!");
+
             toastManager.add(new SystemToast(
                     SystemToast.Type.PERIODIC_NOTIFICATION,
                     new LiteralText("Completion"),
-                    new LiteralText("Player " + username + " has won the race with " + ordinal(place) + " place!")
+                    toastDescription
             ));
         }
     };
@@ -69,6 +83,10 @@ public class ToastLauncher {
             case 11, 12, 13 -> i + "th";
             default -> i + suffixes[i % 10];
         };
+    }
+
+    private static boolean isPlayerName(String username) {
+        return RaceCS.mc.player != null && Objects.equals(RaceCS.mc.player.getName().getString(), username);
     }
 
     public RaceCSWebsocketClient.EventListener getEventListener() {
