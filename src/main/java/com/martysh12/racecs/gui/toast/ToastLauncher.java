@@ -3,7 +3,6 @@ package com.martysh12.racecs.gui.toast;
 import com.martysh12.racecs.RaceCS;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
-import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -15,15 +14,6 @@ public class ToastLauncher {
     private final ToastManager toastManager = RaceCS.mc.getToastManager();
 
     private final RaceCSWebsocketClient.EventListener eventListener = new RaceCSWebsocketClient.EventListener() {
-        @Override
-        public void onDisconnect(int code, String reason, boolean remote) {
-            toastManager.add(new SystemToast(
-                    SystemToast.Type.PERIODIC_NOTIFICATION,
-                    new LiteralText("Websocket Disconnected"),
-                    new LiteralText("Please restart Minecraft!")
-            ));
-        }
-
         @Override
         public void onCollision(String player1, String player2) {
             RaceCS.logger.info("Player {} has collided with {}", player1, player2);
