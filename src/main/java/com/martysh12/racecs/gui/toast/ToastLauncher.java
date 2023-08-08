@@ -1,4 +1,4 @@
-package com.martysh12.racecs.toast;
+package com.martysh12.racecs.gui.toast;
 
 import com.martysh12.racecs.RaceCS;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
@@ -29,16 +29,18 @@ public class ToastLauncher {
             RaceCS.logger.info("Player {} has collided with {}", player1, player2);
 
             Text toastDescription;
-            boolean player1IsPlayerName = isPlayerName(player1);
-            if (player1IsPlayerName || isPlayerName(player2))
-                toastDescription = new LiteralText("You've collided with " + (player1IsPlayerName ? player2 : player1) + "!");
+            boolean isPlayer1LocalPlayer = isLocalPlayerName(player1);
+            if (isPlayer1LocalPlayer || isLocalPlayerName(player2))
+                toastDescription = new LiteralText("You've collided with " + (isPlayer1LocalPlayer ? player2 : player1) + "!");
             else
                 toastDescription = new LiteralText(player1 + " has collided with " + player2 + "!");
 
-            toastManager.add(new SystemToast(
-                    SystemToast.Type.PERIODIC_NOTIFICATION,
+            toastManager.add(new RaceToast(
                     new LiteralText("Collision"),
-                    toastDescription
+                    toastDescription,
+                    RaceToast.Background.RED,
+                    RaceToast.Icon.COLLISION,
+                    RaceToast.TitleColor.RED
             ));
         }
 
@@ -47,15 +49,26 @@ public class ToastLauncher {
             RaceCS.logger.info("Player {} visited station {}", user, station);
 
             Text toastDescription;
-            if (isPlayerName(user))
-                toastDescription = new LiteralText("You've arrived at " + StationManager.getStationFullName(station) + ".");
-            else
-                toastDescription = new LiteralText(user + " has arrived at " + StationManager.getStationFullName(station) + ".");
+            RaceToast.Icon toastIcon;
+            RaceToast.TitleColor titleColor;
 
-            toastManager.add(new SystemToast(
-                    SystemToast.Type.PERIODIC_NOTIFICATION,
+            if (isLocalPlayerName(user)) {
+                toastDescription = new LiteralText("You've arrived at " + StationManager.getStationFullName(station) + ".");
+                toastIcon = RaceToast.Icon.CHECKMARK;
+                titleColor = RaceToast.TitleColor.GREEN;
+            }
+            else {
+                toastDescription = new LiteralText(user + " has arrived at " + StationManager.getStationFullName(station) + ".");
+                toastIcon = RaceToast.Icon.ARRIVAL;
+                titleColor = RaceToast.TitleColor.YELLOW;
+            }
+
+            toastManager.add(new RaceToast(
                     new LiteralText("Arrival"),
-                    toastDescription
+                    toastDescription,
+                    RaceToast.Background.GREEN,
+                    toastIcon,
+                    titleColor
             ));
         }
 
@@ -65,20 +78,26 @@ public class ToastLauncher {
 
             Text toastTitle;
             Text toastDescription;
-            if (isPlayerName(username)) {
+            RaceToast.TitleColor titleColor;
+
+            if (isLocalPlayerName(username)) {
                 toastTitle = new LiteralText("Congratulations!");
                 toastDescription = new LiteralText(
                         "You've reached the terminal station in " + ordinal(place) + " place."
                 );
+                titleColor = RaceToast.TitleColor.GREEN;
             } else {
                 toastTitle = new LiteralText("Completion");
                 toastDescription = new LiteralText(username + " has completed the race in " + ordinal(place) + " place!");
+                titleColor = RaceToast.TitleColor.YELLOW;
             }
 
-            toastManager.add(new SystemToast(
-                    SystemToast.Type.PERIODIC_NOTIFICATION,
+            toastManager.add(new RaceToast(
                     toastTitle,
-                    toastDescription
+                    toastDescription,
+                    RaceToast.Background.YELLOW,
+                    place == 1 ? RaceToast.Icon.FIRST : RaceToast.Icon.TROPHY,
+                    titleColor
             ));
         }
     };
@@ -91,7 +110,7 @@ public class ToastLauncher {
         };
     }
 
-    private static boolean isPlayerName(String username) {
+    private static boolean isLocalPlayerName(String username) {
         return RaceCS.mc.player != null && Objects.equals(RaceCS.mc.player.getName().getString(), username);
     }
 

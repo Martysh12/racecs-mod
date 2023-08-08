@@ -3,7 +3,7 @@ package com.martysh12.racecs;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
 import com.martysh12.racecs.net.APIUtils;
-import com.martysh12.racecs.toast.ToastLauncher;
+import com.martysh12.racecs.gui.toast.ToastLauncher;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
