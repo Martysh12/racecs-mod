@@ -20,6 +20,11 @@ public class APIUtils {
                 .header("Accept-Language", "en-US")
                 .send();
 
+        if (response == null) {
+            RaceCS.logger.error("Couldn't download stations");
+            return null;
+        }
+
         if (response.statusCode() != 200) {
             RaceCS.logger.error("Couldn't download stations (status code {}), body: {}", response.statusCode(), response.body());
             return null;
