@@ -4,7 +4,6 @@ import com.martysh12.racecs.RaceCS;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
 import net.minecraft.client.toast.ToastManager;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
 import java.util.Objects;
@@ -21,12 +20,12 @@ public class ToastLauncher {
             Text toastDescription;
             boolean isPlayer1LocalPlayer = isLocalPlayerName(player1);
             if (isPlayer1LocalPlayer || isLocalPlayerName(player2))
-                toastDescription = new LiteralText("You've collided with " + (isPlayer1LocalPlayer ? player2 : player1) + "!");
+                toastDescription = Text.literal("You've collided with " + (isPlayer1LocalPlayer ? player2 : player1) + "!");
             else
-                toastDescription = new LiteralText(player1 + " has collided with " + player2 + "!");
+                toastDescription = Text.literal(player1 + " has collided with " + player2 + "!");
 
             toastManager.add(new RaceToast(
-                    new LiteralText("Collision"),
+                    Text.literal("Collision"),
                     toastDescription,
                     RaceToast.Background.RED,
                     RaceToast.Icon.COLLISION,
@@ -43,18 +42,18 @@ public class ToastLauncher {
             RaceToast.TitleColor titleColor;
 
             if (isLocalPlayerName(user)) {
-                toastDescription = new LiteralText("You've arrived at " + StationManager.getStationFullName(station) + ".");
+                toastDescription = Text.literal("You've arrived at " + StationManager.getStationFullName(station) + ".");
                 toastIcon = RaceToast.Icon.CHECKMARK;
                 titleColor = RaceToast.TitleColor.GREEN;
             }
             else {
-                toastDescription = new LiteralText(user + " has arrived at " + StationManager.getStationFullName(station) + ".");
+                toastDescription = Text.literal(user + " has arrived at " + StationManager.getStationFullName(station) + ".");
                 toastIcon = RaceToast.Icon.ARRIVAL;
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
             toastManager.add(new RaceToast(
-                    new LiteralText("Arrival"),
+                    Text.literal("Arrival"),
                     toastDescription,
                     RaceToast.Background.GREEN,
                     toastIcon,
@@ -71,14 +70,14 @@ public class ToastLauncher {
             RaceToast.TitleColor titleColor;
 
             if (isLocalPlayerName(username)) {
-                toastTitle = new LiteralText("Congratulations!");
-                toastDescription = new LiteralText(
+                toastTitle = Text.literal("Congratulations!");
+                toastDescription = Text.literal(
                         "You've reached the terminal station in " + ordinal(place) + " place."
                 );
                 titleColor = RaceToast.TitleColor.GREEN;
             } else {
-                toastTitle = new LiteralText("Completion");
-                toastDescription = new LiteralText(username + " has completed the race in " + ordinal(place) + " place!");
+                toastTitle = Text.literal("Completion");
+                toastDescription = Text.literal(username + " has completed the race in " + ordinal(place) + " place!");
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
