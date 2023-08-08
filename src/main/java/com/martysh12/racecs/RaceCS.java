@@ -31,12 +31,20 @@ public class RaceCS implements ClientModInitializer {
 
     private static boolean hasDisconnected = true;
 
+    public static RaceCS INSTANCE;
+
     public static MinecraftClient mc;
     private static ToastLauncher toastLauncher;
     private static RaceCSWebsocketClient websocketClient;
 
     @Override
     public void onInitializeClient() {
+        // Wait until MinecraftClient initialises (see MinecraftClientMixin.onInit)
+        if (INSTANCE == null) {
+            INSTANCE = this;
+            return;
+        }
+
         RaceCS.logger.info("Initialising {}", MOD_ID);
 
         // Get the Minecraft client, so we don't get it manually each time
