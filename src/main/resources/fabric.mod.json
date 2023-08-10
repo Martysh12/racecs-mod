@@ -3,12 +3,13 @@
   "id": "racecs",
   "version": "${version}",
   "name": "RaceCS",
-  "description": "Complementary mod for AirCS races",
+  "description": "A complementary mod for AirCS races.",
   "authors": [
     "Martysh12"
   ],
   "contact": {
-    "repo": "https://github.com/Martysh12/racecs-mod"
+    "sources": "https://github.com/Martysh12/racecs-mod",
+    "issues": "https://github.com/Martysh12/racecs-mod/issues"
   },
   "license": "GPL-3.0",
   "icon": "assets/racecs/icon.png",
