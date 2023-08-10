@@ -20,12 +20,12 @@ public class ToastLauncher {
             Text toastDescription;
             boolean isPlayer1LocalPlayer = isLocalPlayerName(player1);
             if (isPlayer1LocalPlayer || isLocalPlayerName(player2))
-                toastDescription = Text.literal("You've collided with " + (isPlayer1LocalPlayer ? player2 : player1) + "!");
+                toastDescription = Text.translatable("toast.collision.desc.you", isPlayer1LocalPlayer ? player2 : player1);
             else
-                toastDescription = Text.literal(player1 + " has collided with " + player2 + "!");
+                toastDescription = Text.translatable("toast.collision.desc.other", player1, player2);
 
             toastManager.add(new RaceToast(
-                    Text.literal("Collision"),
+                    Text.translatable("toast.collision.title"),
                     toastDescription,
                     RaceToast.Background.RED,
                     RaceToast.Icon.COLLISION,
@@ -37,23 +37,25 @@ public class ToastLauncher {
         public void onVisitation(String user, UUID uuid, String station) {
             RaceCS.logger.info("Player {} visited station {}", user, station);
 
+            String stationFullName = StationManager.getStationFullName(station);
+
             Text toastDescription;
             RaceToast.Icon toastIcon;
             RaceToast.TitleColor titleColor;
 
             if (isLocalPlayerName(user)) {
-                toastDescription = Text.literal("You've arrived at " + StationManager.getStationFullName(station) + ".");
+                toastDescription = Text.translatable("toast.arrival.desc.you", stationFullName);
                 toastIcon = RaceToast.Icon.CHECKMARK;
                 titleColor = RaceToast.TitleColor.GREEN;
             }
             else {
-                toastDescription = Text.literal(user + " has arrived at " + StationManager.getStationFullName(station) + ".");
+                toastDescription = Text.translatable("toast.arrival.desc.other", user, stationFullName);
                 toastIcon = RaceToast.Icon.ARRIVAL;
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
             toastManager.add(new RaceToast(
-                    Text.literal("Arrival"),
+                    Text.translatable("toast.arrival.title"),
                     toastDescription,
                     RaceToast.Background.GREEN,
                     toastIcon,
@@ -70,14 +72,12 @@ public class ToastLauncher {
             RaceToast.TitleColor titleColor;
 
             if (isLocalPlayerName(username)) {
-                toastTitle = Text.literal("Congratulations!");
-                toastDescription = Text.literal(
-                        "You've reached the terminal station in " + ordinal(place) + " place."
-                );
+                toastTitle = Text.translatable("toast.completion.title.you");
+                toastDescription = Text.translatable("toast.completion.desc.you", place);
                 titleColor = RaceToast.TitleColor.GREEN;
             } else {
-                toastTitle = Text.literal("Completion");
-                toastDescription = Text.literal(username + " has completed the race in " + ordinal(place) + " place!");
+                toastTitle = Text.translatable("toast.completion.title.other");
+                toastDescription = Text.translatable("toast.completion.desc.other", username, place);
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
@@ -90,14 +90,6 @@ public class ToastLauncher {
             ));
         }
     };
-
-    private static String ordinal(int i) {
-        String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
-        return switch (i % 100) {
-            case 11, 12, 13 -> i + "th";
-            default -> i + suffixes[i % 10];
-        };
-    }
 
     private static boolean isLocalPlayerName(String username) {
         return RaceCS.mc.player != null && Objects.equals(RaceCS.mc.player.getName().getString(), username);
