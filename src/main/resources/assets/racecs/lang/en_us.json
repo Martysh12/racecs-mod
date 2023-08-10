@@ -1,0 +1,12 @@
+{
+  "toast.collision.title": "Collision",
+  "toast.collision.desc.you": "You've collided with %s!",
+  "toast.collision.desc.other": "%s has collided with %s!",
+  "toast.arrival.title": "Arrival",
+  "toast.arrival.desc.you": "You've arrived at %s.",
+  "toast.arrival.desc.other": "%s has arrived at %s.",
+  "toast.completion.title.you": "Congratulations!",
+  "toast.completion.title.other": "Completion",
+  "toast.completion.desc.you": "You've reached the terminal station in #%d!",
+  "toast.completion.desc.other": "%s has completed the race in #%d!"
+}
