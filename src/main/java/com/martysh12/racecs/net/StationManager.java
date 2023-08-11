@@ -1,16 +1,23 @@
 package com.martysh12.racecs.net;
 
 import com.martysh12.racecs.RaceCS;
+import net.minecraft.client.resource.language.LanguageDefinition;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class StationManager {
     private static Map<String, String> stations = new HashMap<>();
 
     public static void downloadStations() {
+        LanguageDefinition locale = RaceCS.mc.getLanguageManager().getLanguage();
+        String[] localeParts = locale.getCode().split("_");
+        String convertedLocale = localeParts[0] + "-" + localeParts[1].toUpperCase(Locale.ROOT);
+
         new Thread(() -> {
-            Map<String, String> stationMap = APIUtils.getStations();
+            RaceCS.logger.info("Starting download of stations with locale " + convertedLocale);
+            Map<String, String> stationMap = APIUtils.getStations(convertedLocale);
             if (stationMap == null) {
                 RaceCS.logger.error("Unable to download the stations. Keeping last map.");
                 return;
