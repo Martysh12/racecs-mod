@@ -1,0 +1,11 @@
+{
+  "name": "raceCS (Mod)",
+  "subprojects": [
+    {
+      "name": "Mod",
+      "type": "i18next",
+      "path": "/src/main/resources/assets/racecs/lang/{lang}.json",
+      "baseLang": "en_us"
+    }
+  ]
+}
