@@ -13,6 +13,12 @@ public class StationManager {
     public static void downloadStations() {
         LanguageDefinition locale = RaceCS.mc.getLanguageManager().getLanguage();
         String[] localeParts = locale.getCode().split("_");
+
+        if (localeParts.length != 2) {
+            RaceCS.logger.error("Unable to convert locale {} to i18next representation, aborting download.", locale);
+            return;
+        }
+
         String convertedLocale = localeParts[0] + "-" + localeParts[1].toUpperCase(Locale.ROOT);
 
         new Thread(() -> {
