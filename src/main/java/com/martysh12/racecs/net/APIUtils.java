@@ -15,9 +15,9 @@ public class APIUtils {
     public static final String URL_STATIONS = "https://aircs.racing/api/stations";
     public static final String URL_PLAYERS = "https://aircs.racing/api/users";
 
-    public static @Nullable Map<String, String> getStations() {
+    public static @Nullable Map<String, String> getStations(String locale) {
         HttpResponse<String> response = HTTP.Request.get(URL_STATIONS)
-                .header("Accept-Language", "en-US")
+                .header("Accept-Language", locale)
                 .send();
 
         if (response == null) {
