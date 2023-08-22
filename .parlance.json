@@ -3,7 +3,7 @@
   "subprojects": [
     {
       "name": "Mod",
-      "type": "i18next",
+      "type": "minecraft-fabric",
       "path": "/src/main/resources/assets/racecs/lang/{lang}.json",
       "baseLang": "en_us"
     }
