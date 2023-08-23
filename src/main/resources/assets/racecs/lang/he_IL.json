@@ -1,0 +1,12 @@
+{
+  "toast.collision.title": "התנגשות",
+  "toast.collision.desc.you": "התנגשת עם %s!",
+  "toast.collision.desc.other": "%s התנגש עם %s!",
+  "toast.arrival.title": "הגעה",
+  "toast.arrival.desc.you": "הגעת ל-%s.",
+  "toast.arrival.desc.other": "%s הגיע ל-%s.",
+  "toast.completion.title.you": "מזל טוב!",
+  "toast.completion.title.other": "סיום",
+  "toast.completion.desc.you": "הגעת לתחנה הסופית במקום #%d!",
+  "toast.completion.desc.other": "%s סיים את המירוץ במקום #%d!"
+}
