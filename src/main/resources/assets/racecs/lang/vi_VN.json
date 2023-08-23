@@ -1,0 +1,12 @@
+{
+  "toast.collision.title": "Đụng nhau",
+  "toast.collision.desc.you": "Bạn mới đụng xe với %s!",
+  "toast.collision.desc.other": "%s mới đụng xe với %s!",
+  "toast.arrival.title": "Đến",
+  "toast.arrival.desc.you": "Bạn mới ghé thăm %s.",
+  "toast.arrival.desc.other": "%s mới ghé thăm %s.",
+  "toast.completion.title.you": "Chúc mừng bạn!",
+  "toast.completion.title.other": "Hoàn tất",
+  "toast.completion.desc.you": "Bạn đã hoàn tất vị trí #%d!",
+  "toast.completion.desc.other": "%s đã hoàn tất vị trí #%d!"
+}
