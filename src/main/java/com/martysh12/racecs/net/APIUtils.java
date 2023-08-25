@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class APIUtils {
-    public static final String URL_WEBSOCKET = "wss://aircs.racing/ws";
-    public static final String URL_STATIONS = "https://aircs.racing/api/stations";
-    public static final String URL_PLAYERS = "https://aircs.racing/api/users";
+    private static final String URL_BASE = "127.0.0.1:4000";
+    public static final String URL_WEBSOCKET = "wss://" + URL_BASE + "/ws";
+    public static final String URL_STATIONS = "https://" + URL_BASE + "/api/stations";
+    public static final String URL_PLAYERS = "https://" + URL_BASE + "/api/users";
 
     public static @Nullable Map<String, String> getStations(String locale) {
         HttpResponse<String> response = HTTP.Request.get(URL_STATIONS)
