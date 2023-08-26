@@ -78,7 +78,7 @@ public class TeamManager {
             }
 
             teams = teamList;
-            RaceCS.logger.info("Downloaded teams successfully. {} stations loaded.", teams.size());
+            RaceCS.logger.info("Downloaded teams successfully. {} teams loaded.", teams.size());
         }, "Team Download Thread").start();
     }
 
