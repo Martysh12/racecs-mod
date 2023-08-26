@@ -1,7 +1,6 @@
 package com.martysh12.racecs.net;
 
 import com.martysh12.racecs.RaceCS;
-import net.minecraft.client.resource.language.LanguageDefinition;
 
 import java.util.HashMap;
 import java.util.Locale;
