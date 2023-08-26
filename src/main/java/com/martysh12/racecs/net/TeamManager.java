@@ -41,12 +41,11 @@ import com.martysh12.racecs.RaceCS;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class TeamManager {
     private static List<Team> teams = new ArrayList<>();
-    private static RaceCSWebsocketClient.EventListener eventListener = new RaceCSWebsocketClient.EventListener() {
+    private static final RaceCSWebsocketClient.EventListener eventListener = new RaceCSWebsocketClient.EventListener() {
         @Override
         public void onTeamRename(String teamId, String name) {
             RaceCS.logger.info("Team ID {} was renamed to {}", teamId, name);
