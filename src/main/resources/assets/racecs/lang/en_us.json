@@ -7,6 +7,18 @@
   "toast.arrival.desc.other": "%s has arrived at %s.",
   "toast.completion.title.you": "Congratulations!",
   "toast.completion.title.other": "Completion",
-  "toast.completion.desc.you": "You've reached the terminal station in #%d!",
-  "toast.completion.desc.other": "%s has completed the race in #%d!"
+  "toast.completion.desc.you": "You've reached the terminal station as #%d!",
+  "toast.completion.desc.other": "%s has completed the race as #%d!",
+  "toast.completion_partial.title.you": "Congratulations!",
+  "toast.completion_partial.title.other": "Hurry up!",
+  "toast.completion_partial.title.team": "Hurry up!",
+  "toast.completion_partial.desc.you": "You have reached the terminal station. Please wait for the remaining %d team member(s).",
+  "toast.completion_partial.desc.other": "%s has reached the terminal station. %d member(s) from \"%s\" are remaining.",
+  "toast.completion_partial.desc.team": "%s has reached the terminal station for your team! %d member(s) remaining!",
+  "toast.completion_team.title.you": "Congratulations!",
+  "toast.completion_team.title.other": "Team Completion",
+  "toast.completion_team.title.team": "Congratulations!",
+  "toast.completion_team.desc.you": "You've reached the terminal station! Your team has finished as #%d!",
+  "toast.completion_team.desc.other": "%s has reached the terminal station. \"%s\" has finished as #%d!",
+  "toast.completion_team.desc.team": "%s has completed the race for your team! Your team has finished as #%d!"
 }

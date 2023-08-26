@@ -3,6 +3,7 @@ package com.martysh12.racecs.gui.toast;
 import com.martysh12.racecs.RaceCS;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
+import com.martysh12.racecs.net.TeamManager;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -90,10 +91,76 @@ public class ToastLauncher {
                     titleColor
             ));
         }
+
+        @Override
+        public void onCompletionPartial(String player, String team, int remaining) {
+            RaceCS.logger.info("Player {} from team {} has partially completed the race with #{} team members remaining.", player, team, remaining);
+
+            Text toastTitle;
+            Text toastDescription;
+            RaceToast.TitleColor titleColor;
+
+            if (isLocalPlayerName(player)) {
+                toastTitle = new TranslatableText("toast.completion_partial.title.you");
+                toastDescription = new TranslatableText("toast.completion_partial.desc.you", remaining);
+                titleColor = RaceToast.TitleColor.GREEN;
+            } else if (isLocalPlayerOnTeam(team)) {
+                toastTitle = new TranslatableText("toast.completion_partial.title.team");
+                toastDescription = new TranslatableText("toast.completion_partial.desc.team", player, remaining);
+                titleColor = RaceToast.TitleColor.GREEN;
+            } else {
+                toastTitle = new TranslatableText("toast.completion_partial.title.other");
+                toastDescription = new TranslatableText("toast.completion_partial.desc.other", player, remaining, team);
+                titleColor = RaceToast.TitleColor.YELLOW;
+            }
+
+            toastManager.add(new RaceToast(
+                    toastTitle,
+                    toastDescription,
+                    RaceToast.Background.YELLOW,
+                    RaceToast.Icon.TROPHY, // TODO: New icon (COMPLETION_PARTIAL)
+                    titleColor
+            ));
+        }
+
+        @Override
+        public void onCompletionTeam(String player, String team, int place) {
+            RaceCS.logger.info("Player {} has completed Team {} the race in #{}", player, team, place);
+
+            Text toastTitle;
+            Text toastDescription;
+            RaceToast.TitleColor titleColor;
+
+            if (isLocalPlayerName(player)) {
+                toastTitle = new TranslatableText("toast.completion_team.title.you");
+                toastDescription = new TranslatableText("toast.completion_team.desc.you", place);
+                titleColor = RaceToast.TitleColor.GREEN;
+            } else if (isLocalPlayerOnTeam(team)) {
+                toastTitle = new TranslatableText("toast.completion_team.title.team");
+                toastDescription = new TranslatableText("toast.completion_team.desc.team", player, place);
+                titleColor = RaceToast.TitleColor.GREEN;
+            } else {
+                toastTitle = new TranslatableText("toast.completion_team.title.other");
+                toastDescription = new TranslatableText("toast.completion_team.desc.other", player, team, place);
+                titleColor = RaceToast.TitleColor.YELLOW;
+            }
+
+            toastManager.add(new RaceToast(
+                    toastTitle,
+                    toastDescription,
+                    RaceToast.Background.YELLOW,
+                    place == 1 ? RaceToast.Icon.FIRST : RaceToast.Icon.TROPHY,
+                    titleColor
+            ));
+        }
     };
 
     private static boolean isLocalPlayerName(String username) {
         return RaceCS.mc.player != null && Objects.equals(RaceCS.mc.player.getName().getString(), username);
+    }
+
+    private static boolean isLocalPlayerOnTeam(String team) {
+        return RaceCS.mc.player != null && TeamManager.isPlayerInTeam(RaceCS.mc.player.getName().getString(), team);
     }
 
     public RaceCSWebsocketClient.EventListener getEventListener() {

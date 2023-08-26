@@ -70,6 +70,25 @@ public class RaceCSWebsocketClient extends WebSocketClient {
                 for (EventListener eventListener : eventListeners)
                     eventListener.onCompletion(json.get("username").getAsString(), json.get("place").getAsInt());
             }
+            case "completion-partial" -> {
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onCompletionPartial(json.get("player").getAsString(), json.get("team").getAsString(), json.get("remaining").getAsInt());
+            }
+            case "completion-team" -> {
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onCompletionTeam(json.get("player").getAsString(), json.get("team").getAsString(), json.get("place").getAsInt());
+            }
+            case "teamRename" -> {
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onTeamRename(json.get("team").getAsString(), json.get("name").getAsString());
+            }
+            case "teaming" -> {
+                List<Team> teams = new ArrayList<>();
+                json.get("teams").getAsJsonArray().forEach(jsonElement -> teams.add(Team.fromJsonObject(jsonElement.getAsJsonObject())));
+
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onTeaming(teams);
+            }
             default -> RaceCS.logger.warn("Unknown message type \"{}\", with message {}", type, message);
         }
     }
@@ -101,5 +120,9 @@ public class RaceCSWebsocketClient extends WebSocketClient {
         default void onRemovePlayer(String user) {}
         default void onStationChange() {}
         default void onCompletion(String username, int place) {}
+        default void onCompletionPartial(String player, String team, int remaining) {}
+        default void onCompletionTeam(String player, String team, int place) {}
+        default void onTeamRename(String teamId, String name) {}
+        default void onTeaming(List<Team> teams) {}
     }
 }
