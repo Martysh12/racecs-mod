@@ -52,10 +52,6 @@ public class RaceCS implements ClientModInitializer {
         mc = MinecraftClient.getInstance();
         toastLauncher = new ToastLauncher(); // ToastLauncher depends on the line above
 
-        // Download stations
-        TeamManager.downloadTeams();
-        StationManager.downloadStations();
-
         // Set up the websocket stuff
         new Thread(reconnector, "Reconnector Thread").start();
     }

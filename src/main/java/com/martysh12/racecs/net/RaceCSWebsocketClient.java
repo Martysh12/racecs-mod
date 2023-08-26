@@ -24,6 +24,10 @@ public class RaceCSWebsocketClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         RaceCS.logger.info("Connected to the RaceCS websocket endpoint successfully");
+
+        // Start downloading stations & teams only when we connect successfully to the websocket
+        TeamManager.downloadTeams();
+        StationManager.downloadStations();
     }
 
     @Override
