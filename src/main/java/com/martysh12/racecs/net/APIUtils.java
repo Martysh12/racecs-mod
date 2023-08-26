@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class APIUtils {
-    private static final String URL_BASE = "127.0.0.1:4000";
+    private static final String URL_BASE = "aircs.racing";
     public static final String URL_WEBSOCKET = "wss://" + URL_BASE + "/ws";
     public static final String URL_STATIONS = "https://" + URL_BASE + "/api/stations";
     public static final String URL_PLAYERS = "https://" + URL_BASE + "/api/users";
