@@ -138,7 +138,9 @@ public class RaceToast implements Toast {
         }
 
         public void drawIcon(MatrixStack matrices, DrawableHelper helper, int toastWidth) {
+            RenderSystem.enableBlend();
             helper.drawTexture(matrices, toastWidth - ICON_WIDTH, 0, 224, textureSlotY * ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+            RenderSystem.disableBlend();
         }
     }
 
