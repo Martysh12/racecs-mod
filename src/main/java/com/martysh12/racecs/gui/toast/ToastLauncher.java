@@ -118,7 +118,7 @@ public class ToastLauncher {
                     toastTitle,
                     toastDescription,
                     RaceToast.Background.YELLOW,
-                    RaceToast.Icon.TROPHY, // TODO: New icon (COMPLETION_PARTIAL)
+                    RaceToast.Icon.TEAM_PARTIAL_COMPLETION,
                     titleColor
             ));
         }

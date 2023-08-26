@@ -126,7 +126,8 @@ public class RaceToast implements Toast {
         TROPHY(2),
         CHECKMARK(3),
         FIRST(4),
-        ARRIVAL_PLAYER(5);
+        ARRIVAL_PLAYER(5),
+        TEAM_PARTIAL_COMPLETION(6);
 
         private static final int ICON_WIDTH = 32;
         private static final int ICON_HEIGHT = 32;
