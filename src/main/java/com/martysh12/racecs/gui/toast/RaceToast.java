@@ -93,7 +93,8 @@ public class RaceToast implements Toast {
         GREEN(0),
         RED(1),
         YELLOW(2),
-        BLUE(3);
+        BLUE(3),
+        GRAY(4);
 
         private static final int BACKGROUND_WIDTH = 160;
         private static final int BACKGROUND_HEIGHT = 32;

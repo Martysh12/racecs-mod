@@ -91,6 +91,16 @@ public class TeamManager {
         return null;
     }
 
+    public static Team getTeamByName(String teamName) {
+        for (Team team: teams) {
+            if (Objects.equals(team.name, teamName)) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
     public static boolean isPlayerInTeam(String username, String teamName) {
         for (Team team : teams) {
             if (Objects.equals(team.name, teamName) && team.players.contains(username)) {
@@ -99,5 +109,26 @@ public class TeamManager {
         }
 
         return false;
+    }
+
+    public static boolean hasTeamClaimedStation(Team team, String stationShortCode) {
+        if (team.visited == null)
+            return false;
+
+        return team.visited.contains(stationShortCode);
+    }
+
+    public static Team getPlayerTeam(String player) {
+        for (Team team : teams) {
+            if (team.players.contains(player)) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
+    public static int getNumberOfTeams() {
+        return teams.size();
     }
 }

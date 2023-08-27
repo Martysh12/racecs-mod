@@ -3,6 +3,7 @@ package com.martysh12.racecs.gui.toast;
 import com.martysh12.racecs.RaceCS;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
+import com.martysh12.racecs.net.Team;
 import com.martysh12.racecs.net.TeamManager;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
@@ -56,10 +57,20 @@ public class ToastLauncher {
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
+            RaceToast.Background toastBackground = RaceToast.Background.GREEN;
+
+            if (TeamManager.getNumberOfTeams() != 0) {
+                Team playerTeam = TeamManager.getPlayerTeam(user);
+
+                if (playerTeam != null && TeamManager.hasTeamClaimedStation(playerTeam, station)) {
+                    toastBackground = RaceToast.Background.GRAY;
+                }
+            }
+
             toastManager.add(new RaceToast(
                     new TranslatableText("toast.arrival.title"),
                     toastDescription,
-                    RaceToast.Background.GREEN,
+                    toastBackground,
                     toastIcon,
                     titleColor
             ));
