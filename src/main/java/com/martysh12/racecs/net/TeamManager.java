@@ -58,7 +58,7 @@ public class TeamManager {
 
         @Override
         public void onTeaming(List<Team> teamList) {
-            RaceCS.logger.info("Teaming event");
+            RaceCS.logger.info("Teaming event, received {} teams", teamList.size());
             teams = teamList;
         }
     };

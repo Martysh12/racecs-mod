@@ -125,7 +125,7 @@ public class ToastLauncher {
 
         @Override
         public void onCompletionTeam(String player, String team, int place) {
-            RaceCS.logger.info("Player {} has completed Team {} the race in #{}", player, team, place);
+            RaceCS.logger.info("Player {} from team {} has completed the race in #{}", player, team, place);
 
             Text toastTitle;
             Text toastDescription;
