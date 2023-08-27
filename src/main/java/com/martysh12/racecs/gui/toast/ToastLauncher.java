@@ -117,7 +117,7 @@ public class ToastLauncher {
             toastManager.add(new RaceToast(
                     toastTitle,
                     toastDescription,
-                    RaceToast.Background.YELLOW,
+                    RaceToast.Background.BLUE,
                     RaceToast.Icon.TEAM_PARTIAL_COMPLETION,
                     titleColor
             ));
