@@ -62,6 +62,11 @@ public class APIUtils {
             return null;
         }
 
+        if (response.body().length() == 0) {
+            RaceCS.logger.info("Response body length is 0, returning empty list");
+            return new ArrayList<>(); // No teams
+        }
+
         JsonArray jsonArray = JsonParser.parseString(response.body()).getAsJsonArray();
 
         // Time for the boring part, again
