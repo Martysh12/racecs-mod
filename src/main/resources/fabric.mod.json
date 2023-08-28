@@ -5,7 +5,9 @@
   "name": "RaceCS",
   "description": "A complementary mod for AirCS races.",
   "authors": [
-    "Martysh12"
+    "Martysh12",
+    "vicr123",
+    "ThePixelPolygon"
   ],
   "contact": {
     "sources": "https://github.com/Martysh12/racecs-mod",
