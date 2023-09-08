@@ -56,7 +56,7 @@ public class RaceCSWebsocketClient extends WebSocketClient {
             }
             case "visitation" -> {
                 for (EventListener eventListener : eventListeners)
-                    eventListener.onVisitation(json.get("user").getAsString(), UUID.fromString(json.get("uuid").getAsString()), json.get("station").getAsString());
+                    eventListener.onVisitation(json.get("user").getAsString(), UUID.fromString(json.get("uuid").getAsString()), json.get("station").getAsString(), json.get("team").getAsString());
             }
             case "newPlayer" -> {
                 for (EventListener eventListener : eventListeners)
@@ -119,7 +119,7 @@ public class RaceCSWebsocketClient extends WebSocketClient {
 
         default void onPing() {}
         default void onCollision(String player1, String player2) {}
-        default void onVisitation(String user, UUID uuid, String station) {}
+        default void onVisitation(String user, UUID uuid, String station, String team) {}
         default void onNewPlayer(String user, UUID uuid) {}
         default void onRemovePlayer(String user) {}
         default void onStationChange() {}

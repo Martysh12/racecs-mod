@@ -37,38 +37,56 @@ public class ToastLauncher {
         }
 
         @Override
-        public void onVisitation(String user, UUID uuid, String station) {
+        public void onVisitation(String user, UUID uuid, String station, String team) {
             RaceCS.logger.info("Player {} visited station {}", user, station);
 
             String stationFullName = StationManager.getStationFullName(station);
 
+            Text toastTitle;
             Text toastDescription;
             RaceToast.Icon toastIcon;
             RaceToast.TitleColor titleColor;
+            RaceToast.Background toastBackground = RaceToast.Background.GRAY;
 
-            if (isLocalPlayerName(user)) {
-                toastDescription = new TranslatableText("toast.arrival.desc.you", stationFullName);
+            if (team == null) {
+                toastTitle = new TranslatableText("toast.arrival_single.title");
+
+                // Team race
+                if (isLocalPlayerName(user)) {
+                    toastDescription = new TranslatableText("toast.arrival_single.desc.you", stationFullName);
+                    toastIcon = RaceToast.Icon.CHECKMARK;
+                    titleColor = RaceToast.TitleColor.GREEN;
+                } else {
+                    toastDescription = new TranslatableText("toast.arrival_single.desc.other", user, stationFullName);
+                    toastIcon = RaceToast.Icon.ARRIVAL;
+                    titleColor = RaceToast.TitleColor.YELLOW;
+                }
+
+                // Non-team race
+                if (TeamManager.getNumberOfTeams() == 0) {
+                    toastBackground = RaceToast.Background.GREEN;
+                }
+            } else {
+                // Team race
+                toastTitle = new TranslatableText("toast.arrival_team.title");
                 toastIcon = RaceToast.Icon.CHECKMARK;
                 titleColor = RaceToast.TitleColor.GREEN;
-            }
-            else {
-                toastDescription = new TranslatableText("toast.arrival.desc.other", user, stationFullName);
-                toastIcon = RaceToast.Icon.ARRIVAL;
-                titleColor = RaceToast.TitleColor.YELLOW;
-            }
 
-            RaceToast.Background toastBackground = RaceToast.Background.GREEN;
-
-            if (TeamManager.getNumberOfTeams() != 0) {
-                Team playerTeam = TeamManager.getPlayerTeam(user);
-
-                if (playerTeam != null && TeamManager.hasTeamClaimedStation(playerTeam, station)) {
-                    toastBackground = RaceToast.Background.GRAY;
+                if (isLocalPlayerName(user)) {
+                    toastDescription = new TranslatableText("toast.arrival_team.desc.you", stationFullName);
+                } else if (isLocalPlayerOnTeam(team)) {
+                    toastDescription = new TranslatableText("toast.arrival_team.desc.team", user, stationFullName);
+                } else {
+                    toastDescription = new TranslatableText("toast.arrival_team.desc.other", user, stationFullName, team);
+                    toastIcon = RaceToast.Icon.ARRIVAL;
+                    titleColor = RaceToast.TitleColor.YELLOW;
                 }
+
+                toastBackground = RaceToast.Background.GREEN;
             }
 
             toastManager.add(new RaceToast(
-                    new TranslatableText("toast.arrival.title"),
+                    toastTitle,
                     toastDescription,
                     toastBackground,
                     toastIcon,
