@@ -1,5 +1,6 @@
 package com.martysh12.racecs.net;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -55,8 +56,10 @@ public class RaceCSWebsocketClient extends WebSocketClient {
                     eventListener.onCollision(json.get("player1").getAsString(), json.get("player2").getAsString());
             }
             case "visitation" -> {
-                for (EventListener eventListener : eventListeners)
-                    eventListener.onVisitation(json.get("user").getAsString(), UUID.fromString(json.get("uuid").getAsString()), json.get("station").getAsString(), json.get("team").getAsString());
+                for (EventListener eventListener : eventListeners) {
+                    JsonElement team = json.get("team");
+                    eventListener.onVisitation(json.get("user").getAsString(), UUID.fromString(json.get("uuid").getAsString()), json.get("station").getAsString(), team.isJsonNull() ? null : team.getAsString());
+                }
             }
             case "newPlayer" -> {
                 for (EventListener eventListener : eventListeners)
