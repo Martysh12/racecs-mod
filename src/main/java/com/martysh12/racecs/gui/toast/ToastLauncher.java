@@ -3,7 +3,6 @@ package com.martysh12.racecs.gui.toast;
 import com.martysh12.racecs.RaceCS;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
-import com.martysh12.racecs.net.Team;
 import com.martysh12.racecs.net.TeamManager;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
@@ -38,7 +37,7 @@ public class ToastLauncher {
 
         @Override
         public void onVisitation(String user, UUID uuid, String station, String team) {
-            RaceCS.logger.info("Player {} visited station {}", user, station);
+            RaceCS.logger.info("Player {} from team {} has visited station {}", user, team, station);
 
             String stationFullName = StationManager.getStationFullName(station);
 
