@@ -103,7 +103,7 @@ public class TeamManager {
 
     public static boolean isPlayerInTeam(String username, String teamName) {
         for (Team team : teams) {
-            if (Objects.equals(team.name, teamName) && team.players.contains(username)) {
+            if (Objects.equals(team.id, teamName) && team.players.contains(username)) {
                 return true;
             }
         }

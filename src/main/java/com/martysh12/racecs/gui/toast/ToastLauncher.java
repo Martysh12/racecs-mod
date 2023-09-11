@@ -3,6 +3,7 @@ package com.martysh12.racecs.gui.toast;
 import com.martysh12.racecs.RaceCS;
 import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
+import com.martysh12.racecs.net.Team;
 import com.martysh12.racecs.net.TeamManager;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
@@ -71,12 +72,15 @@ public class ToastLauncher {
                 toastIcon = RaceToast.Icon.CHECKMARK;
                 titleColor = RaceToast.TitleColor.GREEN;
 
+                Team t = TeamManager.getTeamById(team);
+                String fullTeamName = t == null ? new TranslatableText("toast.unknown_team").getString() : t.name;
+
                 if (isLocalPlayerName(user)) {
                     toastDescription = new TranslatableText("toast.arrival_team.desc.you", stationFullName);
                 } else if (isLocalPlayerOnTeam(team)) {
                     toastDescription = new TranslatableText("toast.arrival_team.desc.team", user, stationFullName);
                 } else {
-                    toastDescription = new TranslatableText("toast.arrival_team.desc.other", user, stationFullName, team);
+                    toastDescription = new TranslatableText("toast.arrival_team.desc.other", user, stationFullName, fullTeamName);
                     toastIcon = RaceToast.Icon.ARRIVAL;
                     titleColor = RaceToast.TitleColor.YELLOW;
                 }
@@ -128,6 +132,9 @@ public class ToastLauncher {
             Text toastDescription;
             RaceToast.TitleColor titleColor;
 
+            Team t = TeamManager.getTeamById(team);
+            String fullTeamName = t == null ? new TranslatableText("toast.unknown_team").getString() : t.name;
+
             if (isLocalPlayerName(player)) {
                 toastTitle = new TranslatableText("toast.completion_partial.title.you");
                 toastDescription = new TranslatableText("toast.completion_partial.desc.you", remaining);
@@ -138,7 +145,7 @@ public class ToastLauncher {
                 titleColor = RaceToast.TitleColor.GREEN;
             } else {
                 toastTitle = new TranslatableText("toast.completion_partial.title.other");
-                toastDescription = new TranslatableText("toast.completion_partial.desc.other", player, remaining, team);
+                toastDescription = new TranslatableText("toast.completion_partial.desc.other", player, remaining, fullTeamName);
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
@@ -159,6 +166,9 @@ public class ToastLauncher {
             Text toastDescription;
             RaceToast.TitleColor titleColor;
 
+            Team t = TeamManager.getTeamById(team);
+            String fullTeamName = t == null ? new TranslatableText("toast.unknown_team").getString() : t.name;
+
             if (isLocalPlayerName(player)) {
                 toastTitle = new TranslatableText("toast.completion_team.title.you");
                 toastDescription = new TranslatableText("toast.completion_team.desc.you", place);
@@ -169,7 +179,7 @@ public class ToastLauncher {
                 titleColor = RaceToast.TitleColor.GREEN;
             } else {
                 toastTitle = new TranslatableText("toast.completion_team.title.other");
-                toastDescription = new TranslatableText("toast.completion_team.desc.other", player, team, place);
+                toastDescription = new TranslatableText("toast.completion_team.desc.other", player, fullTeamName, place);
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
