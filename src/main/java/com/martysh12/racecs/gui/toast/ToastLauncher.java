@@ -125,27 +125,24 @@ public class ToastLauncher {
         }
 
         @Override
-        public void onCompletionPartial(String player, String team, int remaining) {
+        public void onCompletionPartial(String player, String team, String teamId, int remaining) {
             RaceCS.logger.info("Player {} from team {} has partially completed the race with #{} team members remaining.", player, team, remaining);
 
             Text toastTitle;
             Text toastDescription;
             RaceToast.TitleColor titleColor;
 
-            Team t = TeamManager.getTeamById(team);
-            String fullTeamName = t == null ? new TranslatableText("toast.unknown_team").getString() : t.name;
-
             if (isLocalPlayerName(player)) {
                 toastTitle = new TranslatableText("toast.completion_partial.title.you");
                 toastDescription = new TranslatableText("toast.completion_partial.desc.you", remaining);
                 titleColor = RaceToast.TitleColor.GREEN;
-            } else if (isLocalPlayerOnTeam(team)) {
+            } else if (isLocalPlayerOnTeam(teamId)) {
                 toastTitle = new TranslatableText("toast.completion_partial.title.team");
                 toastDescription = new TranslatableText("toast.completion_partial.desc.team", player, remaining);
                 titleColor = RaceToast.TitleColor.GREEN;
             } else {
                 toastTitle = new TranslatableText("toast.completion_partial.title.other");
-                toastDescription = new TranslatableText("toast.completion_partial.desc.other", player, remaining, fullTeamName);
+                toastDescription = new TranslatableText("toast.completion_partial.desc.other", player, remaining, team);
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 
@@ -159,27 +156,24 @@ public class ToastLauncher {
         }
 
         @Override
-        public void onCompletionTeam(String player, String team, int place) {
+        public void onCompletionTeam(String player, String team, String teamId, int place) {
             RaceCS.logger.info("Player {} from team {} has completed the race in #{}", player, team, place);
 
             Text toastTitle;
             Text toastDescription;
             RaceToast.TitleColor titleColor;
 
-            Team t = TeamManager.getTeamById(team);
-            String fullTeamName = t == null ? new TranslatableText("toast.unknown_team").getString() : t.name;
-
             if (isLocalPlayerName(player)) {
                 toastTitle = new TranslatableText("toast.completion_team.title.you");
                 toastDescription = new TranslatableText("toast.completion_team.desc.you", place);
                 titleColor = RaceToast.TitleColor.GREEN;
-            } else if (isLocalPlayerOnTeam(team)) {
+            } else if (isLocalPlayerOnTeam(teamId)) {
                 toastTitle = new TranslatableText("toast.completion_team.title.team");
                 toastDescription = new TranslatableText("toast.completion_team.desc.team", player, place);
                 titleColor = RaceToast.TitleColor.GREEN;
             } else {
                 toastTitle = new TranslatableText("toast.completion_team.title.other");
-                toastDescription = new TranslatableText("toast.completion_team.desc.other", player, fullTeamName, place);
+                toastDescription = new TranslatableText("toast.completion_team.desc.other", player, team, place);
                 titleColor = RaceToast.TitleColor.YELLOW;
             }
 

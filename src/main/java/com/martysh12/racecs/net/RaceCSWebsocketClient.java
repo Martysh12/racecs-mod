@@ -79,11 +79,11 @@ public class RaceCSWebsocketClient extends WebSocketClient {
             }
             case "completion-partial" -> {
                 for (EventListener eventListener : eventListeners)
-                    eventListener.onCompletionPartial(json.get("player").getAsString(), json.get("team").getAsString(), json.get("remaining").getAsInt());
+                    eventListener.onCompletionPartial(json.get("player").getAsString(), json.get("team").getAsString(), json.get("teamId").getAsString(), json.get("remaining").getAsInt());
             }
             case "completion-team" -> {
                 for (EventListener eventListener : eventListeners)
-                    eventListener.onCompletionTeam(json.get("player").getAsString(), json.get("team").getAsString(), json.get("place").getAsInt());
+                    eventListener.onCompletionTeam(json.get("player").getAsString(), json.get("team").getAsString(), json.get("teamId").getAsString(), json.get("place").getAsInt());
             }
             case "teamRename" -> {
                 for (EventListener eventListener : eventListeners)
@@ -127,8 +127,8 @@ public class RaceCSWebsocketClient extends WebSocketClient {
         default void onRemovePlayer(String user) {}
         default void onStationChange() {}
         default void onCompletion(String username, int place) {}
-        default void onCompletionPartial(String player, String team, int remaining) {}
-        default void onCompletionTeam(String player, String team, int place) {}
+        default void onCompletionPartial(String player, String team, String teamId, int remaining) {}
+        default void onCompletionTeam(String player, String team, String teamId, int place) {}
         default void onTeamRename(String teamId, String name) {}
         default void onTeaming(List<Team> teams) {}
     }
