@@ -1,5 +1,6 @@
 package com.martysh12.racecs.net;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -24,6 +25,10 @@ public class RaceCSWebsocketClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         RaceCS.logger.info("Connected to the RaceCS websocket endpoint successfully");
+
+        // Start downloading stations & teams only when we connect successfully to the websocket
+        TeamManager.downloadTeams();
+        StationManager.downloadStations();
     }
 
     @Override
@@ -51,8 +56,10 @@ public class RaceCSWebsocketClient extends WebSocketClient {
                     eventListener.onCollision(json.get("player1").getAsString(), json.get("player2").getAsString());
             }
             case "visitation" -> {
-                for (EventListener eventListener : eventListeners)
-                    eventListener.onVisitation(json.get("user").getAsString(), UUID.fromString(json.get("uuid").getAsString()), json.get("station").getAsString());
+                for (EventListener eventListener : eventListeners) {
+                    JsonElement team = json.get("team");
+                    eventListener.onVisitation(json.get("user").getAsString(), UUID.fromString(json.get("uuid").getAsString()), json.get("station").getAsString(), team.isJsonNull() ? null : team.getAsString());
+                }
             }
             case "newPlayer" -> {
                 for (EventListener eventListener : eventListeners)
@@ -69,6 +76,25 @@ public class RaceCSWebsocketClient extends WebSocketClient {
             case "completion" -> {
                 for (EventListener eventListener : eventListeners)
                     eventListener.onCompletion(json.get("username").getAsString(), json.get("place").getAsInt());
+            }
+            case "completion-partial" -> {
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onCompletionPartial(json.get("player").getAsString(), json.get("team").getAsString(), json.get("teamId").getAsString(), json.get("remaining").getAsInt());
+            }
+            case "completion-team" -> {
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onCompletionTeam(json.get("player").getAsString(), json.get("team").getAsString(), json.get("teamId").getAsString(), json.get("place").getAsInt());
+            }
+            case "teamRename" -> {
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onTeamRename(json.get("team").getAsString(), json.get("name").getAsString());
+            }
+            case "teaming" -> {
+                List<Team> teams = new ArrayList<>();
+                json.get("teams").getAsJsonArray().forEach(jsonElement -> teams.add(Team.fromJsonObject(jsonElement.getAsJsonObject())));
+
+                for (EventListener eventListener : eventListeners)
+                    eventListener.onTeaming(teams);
             }
             default -> RaceCS.logger.warn("Unknown message type \"{}\", with message {}", type, message);
         }
@@ -96,10 +122,14 @@ public class RaceCSWebsocketClient extends WebSocketClient {
 
         default void onPing() {}
         default void onCollision(String player1, String player2) {}
-        default void onVisitation(String user, UUID uuid, String station) {}
+        default void onVisitation(String user, UUID uuid, String station, String team) {}
         default void onNewPlayer(String user, UUID uuid) {}
         default void onRemovePlayer(String user) {}
         default void onStationChange() {}
         default void onCompletion(String username, int place) {}
+        default void onCompletionPartial(String player, String team, String teamId, int remaining) {}
+        default void onCompletionTeam(String player, String team, String teamId, int place) {}
+        default void onTeamRename(String teamId, String name) {}
+        default void onTeaming(List<Team> teams) {}
     }
 }

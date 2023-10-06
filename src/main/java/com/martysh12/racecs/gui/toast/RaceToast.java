@@ -92,7 +92,8 @@ public class RaceToast implements Toast {
         GREEN(0),
         RED(1),
         YELLOW(2),
-        BLUE(3);
+        BLUE(3),
+        GRAY(4);
 
         private static final int BACKGROUND_WIDTH = 160;
         private static final int BACKGROUND_HEIGHT = 32;
@@ -103,18 +104,18 @@ public class RaceToast implements Toast {
             this.textureSlotY = textureSlotY;
         }
 
-        private void drawBackground(DrawContext helper, int toastWidth) {
+        private void drawBackground(DrawContext context, int toastWidth) {
             if (toastWidth == BACKGROUND_WIDTH) {
-                helper.drawTexture(TEXTURE, 0, 0, 0, textureSlotY * 32, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+                context.drawTexture(TEXTURE, 0, 0, 0, textureSlotY * 32, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
             } else {
                 // Oh, no
-                helper.drawTexture(TEXTURE, 0, 0, 0, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
+                context.drawTexture(TEXTURE, 0, 0, 0, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
 
                 for (int i = 32; i < (toastWidth - Icon.ICON_WIDTH); i += 32) {
-                    helper.drawTexture(TEXTURE, i, 0, 32, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
+                    context.drawTexture(TEXTURE, i, 0, 32, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
                 }
 
-                helper.drawTexture(TEXTURE, toastWidth - Icon.ICON_WIDTH, 0, BACKGROUND_WIDTH - Icon.ICON_WIDTH, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
+                context.drawTexture(TEXTURE, toastWidth - Icon.ICON_WIDTH, 0, BACKGROUND_WIDTH - Icon.ICON_WIDTH, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
             }
         }
     }
@@ -125,7 +126,8 @@ public class RaceToast implements Toast {
         TROPHY(2),
         CHECKMARK(3),
         FIRST(4),
-        ARRIVAL_PLAYER(5);
+        ARRIVAL_PLAYER(5),
+        TEAM_PARTIAL_COMPLETION(6);
 
         private static final int ICON_WIDTH = 32;
         private static final int ICON_HEIGHT = 32;
@@ -136,8 +138,8 @@ public class RaceToast implements Toast {
             this.textureSlotY = textureSlotY;
         }
 
-        public void drawIcon(DrawContext helper, int toastWidth) {
-            helper.drawTexture(TEXTURE, toastWidth - ICON_WIDTH, 0, 224, textureSlotY * ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+        public void drawIcon(DrawContext context, int toastWidth) {
+            context.drawTexture(TEXTURE, toastWidth - ICON_WIDTH, 0, 224, textureSlotY * ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
         }
     }
 

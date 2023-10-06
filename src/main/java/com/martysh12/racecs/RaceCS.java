@@ -4,6 +4,7 @@ import com.martysh12.racecs.net.RaceCSWebsocketClient;
 import com.martysh12.racecs.net.StationManager;
 import com.martysh12.racecs.net.APIUtils;
 import com.martysh12.racecs.gui.toast.ToastLauncher;
+import com.martysh12.racecs.net.TeamManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
@@ -49,10 +50,7 @@ public class RaceCS implements ClientModInitializer {
 
         // Get the Minecraft client, so we don't get it manually each time
         mc = MinecraftClient.getInstance();
-        toastLauncher = new ToastLauncher(); // ToastLauncher depends on RaceCS.mc
-
-        // Download stations
-        StationManager.downloadStations();
+        toastLauncher = new ToastLauncher(); // ToastLauncher depends on the line above
 
         // Set up the websocket stuff
         new Thread(reconnector, "Reconnector Thread").start();
@@ -66,6 +64,7 @@ public class RaceCS implements ClientModInitializer {
         }
         websocketClient.connect();
 
+        websocketClient.addEventListener(TeamManager.getEventListener());
         websocketClient.addEventListener(toastLauncher.getEventListener());
         websocketClient.addEventListener(eventListener);
     }
@@ -81,7 +80,7 @@ public class RaceCS implements ClientModInitializer {
                 }
 
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(5000); // Shut up IntelliJ
                 } catch (InterruptedException e) {
                     break;
                 }
