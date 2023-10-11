@@ -1,4 +1,8 @@
 # Changelog
+## [0.3.0] 2023-10-11
+- Fix solid black shadows in toast icons
+- Credit vicr123 and ThePixelPolygon
+- Team support
 ## [0.2.0] 2023-08-09
 - Fix completion toast's grammar and change title dynamically
 - Add mod icon
