@@ -2,10 +2,9 @@ package com.martysh12.racecs.gui.toast;
 
 import com.martysh12.racecs.RaceCS;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -60,23 +59,23 @@ public class RaceToast implements Toast {
     }
 
     @Override
-    public Visibility draw(MatrixStack matrices, ToastManager manager, long time) {
+    public Visibility draw(DrawContext context, ToastManager manager, long startTime) {
         // Reset the timer whenever there is an update
         if (propertiesUpdated) {
-            this.startTime = time;
+            this.startTime = startTime;
             propertiesUpdated = false;
         }
 
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(1.f, 1.f, 1.f, 1.f);
 
-        background.drawBackground(matrices, manager, toastWidth);
-        icon.drawIcon(matrices, manager, toastWidth);
+        background.drawBackground(context, toastWidth);
+        icon.drawIcon(context, toastWidth);
 
-        RaceCS.mc.textRenderer.draw(matrices, title, 7, 7, titleColor.getColor());
-        RaceCS.mc.textRenderer.draw(matrices, description, 7, 18, 0xFFFFFFFF);
+        context.drawText(RaceCS.mc.textRenderer, title, 7, 7, titleColor.getColor(), false);
+        context.drawText(RaceCS.mc.textRenderer, description, 7, 18, 0xFFFFFFFF, false);
 
-        return time - this.startTime < 5000 ? Visibility.SHOW : Visibility.HIDE;
+        return startTime - this.startTime < 5000 ? Visibility.SHOW : Visibility.HIDE;
     }
 
     @Override
@@ -105,18 +104,18 @@ public class RaceToast implements Toast {
             this.textureSlotY = textureSlotY;
         }
 
-        private void drawBackground(MatrixStack matrices, DrawableHelper helper, int toastWidth) {
+        private void drawBackground(DrawContext context, int toastWidth) {
             if (toastWidth == BACKGROUND_WIDTH) {
-                helper.drawTexture(matrices, 0, 0, 0, textureSlotY * 32, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+                context.drawTexture(TEXTURE, 0, 0, 0, textureSlotY * 32, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
             } else {
                 // Oh, no
-                helper.drawTexture(matrices, 0, 0, 0, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
+                context.drawTexture(TEXTURE, 0, 0, 0, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
 
                 for (int i = 32; i < (toastWidth - Icon.ICON_WIDTH); i += 32) {
-                    helper.drawTexture(matrices, i, 0, 32, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
+                    context.drawTexture(TEXTURE, i, 0, 32, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
                 }
 
-                helper.drawTexture(matrices, toastWidth - Icon.ICON_WIDTH, 0, BACKGROUND_WIDTH - Icon.ICON_WIDTH, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
+                context.drawTexture(TEXTURE, toastWidth - Icon.ICON_WIDTH, 0, BACKGROUND_WIDTH - Icon.ICON_WIDTH, textureSlotY * 32, 32, BACKGROUND_HEIGHT);
             }
         }
     }
@@ -139,10 +138,8 @@ public class RaceToast implements Toast {
             this.textureSlotY = textureSlotY;
         }
 
-        public void drawIcon(MatrixStack matrices, DrawableHelper helper, int toastWidth) {
-            RenderSystem.enableBlend();
-            helper.drawTexture(matrices, toastWidth - ICON_WIDTH, 0, 224, textureSlotY * ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-            RenderSystem.disableBlend();
+        public void drawIcon(DrawContext context, int toastWidth) {
+            context.drawTexture(TEXTURE, toastWidth - ICON_WIDTH, 0, 224, textureSlotY * ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
         }
     }
 

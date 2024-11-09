@@ -1,7 +1,6 @@
 package com.martysh12.racecs.net;
 
 import com.martysh12.racecs.RaceCS;
-import net.minecraft.client.resource.language.LanguageDefinition;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -11,8 +10,8 @@ public class StationManager {
     private static Map<String, String> stations = new HashMap<>();
 
     public static void downloadStations() {
-        LanguageDefinition locale = RaceCS.mc.getLanguageManager().getLanguage();
-        String[] localeParts = locale.getCode().split("_");
+        String locale = RaceCS.mc.getLanguageManager().getLanguage();
+        String[] localeParts = locale.split("_");
 
         if (localeParts.length != 2) {
             RaceCS.logger.error("Unable to convert locale {} to i18next representation, aborting download.", locale);
