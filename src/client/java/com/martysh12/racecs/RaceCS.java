@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class RaceCS implements ClientModInitializer {
-    public static final String MOD_ID = "racecs";
+    public static final String MOD_ID = "com/martysh12/racecs";
     public static final Logger logger = LoggerFactory.getLogger(MOD_ID);
     private static final Reconnector reconnector = new Reconnector();
     private static final RaceCSWebsocketClient.EventListener eventListener = new RaceCSWebsocketClient.EventListener() {
