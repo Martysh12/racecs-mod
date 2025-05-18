@@ -14,8 +14,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class RaceCS implements ClientModInitializer {
-    public static final String MOD_ID = "com/martysh12/racecs";
-    public static final Logger logger = LoggerFactory.getLogger(MOD_ID);
+    public static final String ID = "racecs";
+    public static final Logger logger = LoggerFactory.getLogger(ID);
     private static final Reconnector reconnector = new Reconnector();
     private static final RaceCSWebsocketClient.EventListener eventListener = new RaceCSWebsocketClient.EventListener() {
         @Override
@@ -46,7 +46,7 @@ public class RaceCS implements ClientModInitializer {
             return;
         }
 
-        RaceCS.logger.info("Initialising {}", MOD_ID);
+        RaceCS.logger.info("Initialising {}", ID);
 
         // Get the Minecraft client, so we don't get it manually each time
         mc = MinecraftClient.getInstance();

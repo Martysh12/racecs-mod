@@ -25,6 +25,8 @@ public class APIUtils {
                 .header("Accept-Language", locale)
                 .send();
 
+        RaceCS.logger.info("awaaga " + response.toString());
+
         if (response == null) {
             RaceCS.logger.error("Couldn't download stations");
             return null;

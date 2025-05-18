@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "1.8-SNAPSHOT"
+    id("fabric-loom") version "1.10-SNAPSHOT"
     id("maven-publish")
 }
 
@@ -10,13 +10,14 @@ base {
     archivesName.set(project.property("archives_base_name") as String)
 }
 
-val targetJavaVersion = 17
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
     // if it is present.
     // If you remove this line, sources will not be generated.
     withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 loom {
@@ -24,6 +25,7 @@ loom {
 
     mods {
         register("racecs") {
+            sourceSet("main")
             sourceSet("client")
         }
     }
@@ -45,7 +47,6 @@ tasks.processResources {
     inputs.property("version", project.version)
     inputs.property("minecraft_version", project.property("minecraft_version"))
     inputs.property("loader_version", project.property("loader_version"))
-    filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand(
@@ -57,11 +58,12 @@ tasks.processResources {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"
-    options.release.set(targetJavaVersion)
+    options.release.set(17)
 }
 
 tasks.jar {
+    inputs.property("archivesName", project.base.archivesName)
+
     from("LICENSE") {
         rename { "${it}_${project.base.archivesName}" }
     }

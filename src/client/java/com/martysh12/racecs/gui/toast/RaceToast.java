@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class RaceToast implements Toast {
-    private static final Identifier TEXTURE = new Identifier(RaceCS.MOD_ID, "textures/gui/race_toasts.png");
+    private static final Identifier TEXTURE = Identifier.of(RaceCS.ID, "textures/gui/race_toasts.png");
     private static final int TEXT_START_X = 7;
 
     private Background background;
